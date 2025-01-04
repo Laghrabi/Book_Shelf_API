@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: server/flask.dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/Book_Shelf_API/server
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      BOOK_DB_HOST: mysql_db
+      BOOK_DB_USER: BOOK_USER
+      BOOK_DB_PASSWORD: BOOK_PASSWORD
+      BOOK_DB_NAME: BOOK_DB
+      PYTHONPATH: /Learning_platform
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: BOOK_DB
+      MYSQL_USER: BOOK_USER
+      MYSQL_PASSWORD: BOOK_PASSWORD
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
