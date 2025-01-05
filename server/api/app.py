@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """ Starts the Flask web app """
 import os
+from api.views import app_views
 from datetime import timedelta
 from dotenv import load_dotenv
 from flask import Flask, jsonify
@@ -12,11 +13,11 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, supports_credentials=True, resources={r"*": {"origins": "*"}})
 app.url_map.strict_slashes = False
+app.register_blueprint(app_views)
 HOST = "0.0.0.0"
 PORT = 5000
 
 
-# To be removed att deployement
 @app.route('/volumes')
 def volume():
     """ A dummy route to test volumes of docker"""
