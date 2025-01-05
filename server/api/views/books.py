@@ -55,6 +55,7 @@ def handle_book(book_id):
             if key not in ['name', 'author', 'genre', 'year']:
                 return jsonify({"error": "Invalid attribute"}), 400
             setattr(book, key, value)
+        book.updated_at = datetime.now()
         book.save()
         return jsonify(book.to_dict())
     
