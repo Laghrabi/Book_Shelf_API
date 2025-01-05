@@ -35,3 +35,30 @@ def handle_books():
         new_book = Book(**data)
         new_book.save()
         return jsonify(new_book.to_dict()), 201
+    
+@app_views.route('/books/<book_id>', methods=['GET', 'PUT', 'DELETE'])
+@jwt_required()
+def handle_book(book_id):
+    current_user = isAuthenticated()
+    book = storage.get_specific(Book, 'id', book_id)
+    if not book:
+        return jsonify({"error": "Book not found"}), 404
+    
+    if request.method == 'GET':
+        return jsonify(book.to_dict())
+    
+    if request.method == 'PUT':
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Not a JSON"}), 400
+        for key, value in data.items():
+            if key not in ['name', 'author', 'genre', 'year']:
+                return jsonify({"error": "Invalid attribute"}), 400
+            setattr(book, key, value)
+        book.save()
+        return jsonify(book.to_dict())
+    
+    if request.method == 'DELETE':
+        storage.delete(book)
+        storage.save()
+        return jsonify({})
