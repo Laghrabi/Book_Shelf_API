@@ -3,14 +3,14 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer
 
 
-class User(BaseModel, Base):
+class Book(BaseModel, Base):
     """Representation of a book """
-    __tablename__ = 'users'
+    __tablename__ = 'books'
     name = Column(String(128), nullable=False)
     author = Column(String(128), nullable=False)
     genre = Column(String(128), nullable=False)
     year = Column(Integer, nullable=False)
 
     def __init__(self, *args, **kwargs):
-        """Initializes user"""
+        """Initializes books"""
         super().__init__(*args, **kwargs)
