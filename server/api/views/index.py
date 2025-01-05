@@ -12,9 +12,11 @@ def status():
 @app_views.route('stats')
 def stats():
     """Return the count of all classes"""
+    from models.book import Book
     from models.user import User
     from models import storage
 
     return {
-            "Users": storage.count(User)
+            "Users": storage.count(User),
+            "Books": storage.count(Book)
             }
