@@ -2,6 +2,7 @@
 """ Starts the Flask web app """
 import os
 from api.views import app_views
+from api.views.auth import jwt
 from datetime import timedelta
 from dotenv import load_dotenv
 from flask import Flask, jsonify
@@ -11,9 +12,12 @@ from models import storage
 
 load_dotenv()
 app = Flask(__name__)
+jwt.init_app(app)
 CORS(app, supports_credentials=True, resources={r"*": {"origins": "*"}})
 app.url_map.strict_slashes = False
 app.register_blueprint(app_views)
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=24)
 HOST = "0.0.0.0"
 PORT = 5000
 
