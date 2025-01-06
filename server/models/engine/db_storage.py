@@ -7,6 +7,7 @@ from models.base_model import Base
 from models.book import Book
 from models.genre import Genre
 from models.user import User
+from models.user_book import UserBook
 from os import getenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -14,7 +15,8 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 classes = {
             "User": User,
             "Book": Book,
-            "Genre": Genre
+            "Genre": Genre,
+            "User_Book": UserBook
            }
 
 

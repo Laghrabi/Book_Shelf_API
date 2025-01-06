@@ -27,6 +27,7 @@ def isAuthenticated():
         return jsonify({'error': 'Invalid token'}), 401
     return current_user
 
+
 @app_views.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()

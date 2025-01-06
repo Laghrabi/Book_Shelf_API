@@ -16,6 +16,7 @@ def get_user_profile():
         return jsonify({"error": "User not found"}), 404
     return jsonify(user_profile.to_dict())
 
+
 @app_views.route('/users', methods=['DELETE', 'PUT'])
 @jwt_required()
 def update_user_profile():

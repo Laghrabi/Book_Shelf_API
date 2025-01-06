@@ -22,12 +22,6 @@ HOST = "0.0.0.0"
 PORT = 5000
 
 
-@app.route('/volumes')
-def volume():
-    """ A dummy route to test volumes of docker"""
-    return "Testing volumes: -<Chaimae>-"
-
-
 @app.teardown_appcontext
 def teardown_db(exception):
     """ Closes the storage session """

@@ -6,6 +6,7 @@ from flask_jwt_extended import jwt_required
 from models import storage
 from models.book import Book
 
+
 @app_views.route('/books', methods=['GET', 'POST'])
 @jwt_required()
 def handle_books():
@@ -15,7 +16,7 @@ def handle_books():
         if not books:
             return jsonify([])
         return jsonify([book.to_dict() for book in books])
-    
+
     if request.method == 'POST':  # Create a new book
         data = request.get_json()
         if not data:
@@ -37,7 +38,8 @@ def handle_books():
         new_book = Book(**data)
         new_book.save()
         return jsonify(new_book.to_dict()), 201
-    
+
+
 @app_views.route('/books/<book_id>', methods=['GET', 'PUT', 'DELETE'])
 @jwt_required()
 def handle_book(book_id):
@@ -45,10 +47,10 @@ def handle_book(book_id):
     book = storage.get_specific(Book, 'id', book_id)
     if not book:
         return jsonify({"error": "Book not found"}), 404
-    
+
     if request.method == 'GET':
         return jsonify(book.to_dict())
-    
+
     if request.method == 'PUT':
         data = request.get_json()
         if not data:
@@ -60,7 +62,7 @@ def handle_book(book_id):
         book.updated_at = datetime.now()
         book.save()
         return jsonify(book.to_dict())
-    
+
     if request.method == 'DELETE':
         storage.delete(book)
         storage.save()
