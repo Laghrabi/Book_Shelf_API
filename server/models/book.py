@@ -13,6 +13,7 @@ class Book(BaseModel, Base):
     year = Column(Integer, nullable=False)
     description = Column(String(512), nullable=False)
     genre = relationship("Genre", back_populates="books")
+    user_books = relationship("UserBook", back_populates="book")
 
 
     def __init__(self, *args, **kwargs):

@@ -2,6 +2,7 @@
 """Holds class User"""
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 import hashlib
 
 
@@ -12,6 +13,7 @@ class User(BaseModel, Base):
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=False)
     last_name = Column(String(128), nullable=False)
+    user_books = relationship("UserBook", back_populates="user")
 
     def __init__(self, *args, **kwargs):
         """Initializes user"""
