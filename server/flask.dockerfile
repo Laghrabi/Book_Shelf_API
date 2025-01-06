@@ -9,7 +9,7 @@ WORKDIR /Book_Shelf_API
 
 COPY . /Book_Shelf_API
 
-RUN pip3 install flask==2.1.0 werkzeug==2.1.1 flask-cors==4.0.1 sqlalchemy==1.4.22 mysqlclient==2.2.4 python-dotenv flask-jwt-extended requests
+RUN pip3 install flask==2.1.0 werkzeug==2.1.1 flask-cors==4.0.1 sqlalchemy==1.4.22 mysqlclient==2.2.4 python-dotenv flask-jwt-extended flask-swagger-ui requests
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
