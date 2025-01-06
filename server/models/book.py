@@ -15,7 +15,6 @@ class Book(BaseModel, Base):
     genre = relationship("Genre", back_populates="books")
     user_books = relationship("UserBook", back_populates="book")
 
-
     def __init__(self, *args, **kwargs):
         """Initializes books"""
         super().__init__(*args, **kwargs)
