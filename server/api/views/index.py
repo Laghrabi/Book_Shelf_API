@@ -13,10 +13,12 @@ def status():
 def stats():
     """Return the count of all classes"""
     from models.book import Book
+    from models.genre import Genre
     from models.user import User
     from models import storage
 
     return {
             "Users": storage.count(User),
-            "Books": storage.count(Book)
+            "Books": storage.count(Book),
+            "Genres": storage.count(Genre)
             }
