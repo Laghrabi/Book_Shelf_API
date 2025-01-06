@@ -20,16 +20,18 @@ def handle_books():
         data = request.get_json()
         if not data:
             return jsonify({"error": "Not a JSON"}), 400
-        if 'name' not in data:
+        if 'title' not in data:
             return jsonify({"error": "Missing title"}), 400
+        if 'genre_id' not in data:
+            return jsonify({"error": "Missing genre id"}), 400
         if 'author' not in data:
             return jsonify({"error": "Missing author"}), 400
-        if 'genre' not in data:
-            return jsonify({"error": "Missing genre"}), 400
         if 'year' not in data:
             return jsonify({"error": "Missing published"}), 400
+        if 'description' not in data:
+            return jsonify({"error": "Missing description"}), 400
         data['user_id'] = current_user
-        exising_book = storage.get_specific(Book, 'name', data['name'])
+        exising_book = storage.get_specific(Book, 'title', data['title'])
         if exising_book:
             return jsonify({"error": "Book already exists"}), 400
         new_book = Book(**data)
@@ -52,7 +54,7 @@ def handle_book(book_id):
         if not data:
             return jsonify({"error": "Not a JSON"}), 400
         for key, value in data.items():
-            if key not in ['name', 'author', 'genre', 'year']:
+            if key not in ['title', 'author', 'description', 'year']:
                 return jsonify({"error": "Invalid attribute"}), 400
             setattr(book, key, value)
         book.updated_at = datetime.now()
