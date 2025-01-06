@@ -15,10 +15,12 @@ def stats():
     from models.book import Book
     from models.genre import Genre
     from models.user import User
+    from models.user_book import UserBook
     from models import storage
 
     return {
             "Users": storage.count(User),
             "Books": storage.count(Book),
-            "Genres": storage.count(Genre)
+            "Genres": storage.count(Genre),
+            "User_books": storage.count(UserBook)
             }

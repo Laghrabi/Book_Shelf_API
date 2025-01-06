@@ -8,3 +8,5 @@ from api.views.index import *  # nopep8
 from api.views.auth import *  # nopep8
 from api.views.users import *  # nopep8
 from api.views.books import *  # nopep8
+from api.views.genres import *  # nopep8
+from api.views.user_books import *  # nopep8
