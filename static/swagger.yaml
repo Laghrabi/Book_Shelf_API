@@ -1,0 +1,378 @@
+openapi: 3.0.0
+info:
+  title: Book Shelf API
+  description: API for managing books and user libraries
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/api
+    description: Development server
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        author:
+          type: string
+        genre_id:
+          type: string
+        description:
+          type: string
+        year:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    
+    Genre:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    UserBook:
+      type: object
+      properties:
+        id:
+          type: string
+        user_id:
+          type: string
+        book_id:
+          type: string
+        read:
+          type: boolean
+        like:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      responses:
+        201:
+          description: User created successfully
+        400:
+          description: Invalid request
+
+  /login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        200:
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        401:
+          description: Invalid credentials
+
+  /users:
+    get:
+      summary: Get user profile
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    put:
+      summary: Update user profile
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+      responses:
+        200:
+          description: Profile updated successfully
+    delete:
+      summary: Delete user profile
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Profile deleted successfully
+
+  /books:
+    get:
+      summary: Get all books
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+    post:
+      summary: Create a new book
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        201:
+          description: Book created successfully
+
+  /books/{book_id}:
+    parameters:
+      - in: path
+        name: book_id
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific book
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Book details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    put:
+      summary: Update a book
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+      responses:
+        200:
+          description: Book updated successfully
+    delete:
+      summary: Delete a book
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: Book deleted successfully
+
+  /genres:
+    get:
+      summary: Get all genres
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of genres
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Genre'
+    post:
+      summary: Create a new genre
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        201:
+          description: Genre created successfully
+
+  /user_books:
+    get:
+      summary: Get user's books
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of user's books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserBook'
+    post:
+      summary: Add a book to user's library
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                book_id:
+                  type: string
+                read:
+                  type: boolean
+                like:
+                  type: boolean
+      responses:
+        201:
+          description: Book added to library successfully
+
+  /user_books/likes:
+    get:
+      summary: Get user's liked books
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of liked books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserBook'
+
+  /user_books/reads:
+    get:
+      summary: Get user's read books
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: List of read books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserBook'
+
+  /status:
+    get:
+      summary: Get API status
+      responses:
+        200:
+          description: API status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /stats:
+    get:
+      summary: Get API statistics
+      responses:
+        200:
+          description: API statistics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  Users:
+                    type: integer
+                  Books:
+                    type: integer
+                  Genres:
+                    type: integer
+                  User_books:
+                    type: integer
