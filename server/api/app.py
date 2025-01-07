@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 # Swagger UI configuration
 SWAGGER_URL = '/api/docs'
-API_URL = '/static/swagger.yaml'
+API_URL = 'https://raw.githubusercontent.com/Laghrabi/Book_Shelf_API/refs/heads/main/static/swagger.yaml'
 swaggerui_blueprint = get_swaggerui_blueprint(
     SWAGGER_URL,
     API_URL,
