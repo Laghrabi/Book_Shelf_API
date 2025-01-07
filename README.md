@@ -45,4 +45,4 @@ The **Book Shelf API** is a simple, robust web service that allows users to mana
 
 ## Testing
 
-To test the application, you can use tools like **Postman** or **curl** to interact with the API endpoints. Ensure that the application is running either via Docker before testing.
+To test the application, you can use tools like **Postman**, **curl** or **/api/docs** endpoint to interact with the API endpoints. Ensure that the application is running either via Docker before testing.
