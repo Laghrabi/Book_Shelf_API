@@ -342,7 +342,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserBook'
-  /user8books/{user+book_id}:
+  /user_books/{user_book_id}:
     parameters:
       - in: path
         name: user_book_id
