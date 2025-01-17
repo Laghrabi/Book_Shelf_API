@@ -342,6 +342,44 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserBook'
+  /user8books/{user+book_id}:
+    parameters:
+      - in: path
+        name: user_book_id
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Get a specific Userbook
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: UserBook details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserBook'
+    put:
+      summary: Update a Userbook
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserBook'
+      responses:
+        200:
+          description: UserBook updated successfully
+    delete:
+      summary: Delete a Userbook
+      security:
+        - BearerAuth: []
+      responses:
+        200:
+          description: UserBook deleted successfully
 
   /status:
     get:
